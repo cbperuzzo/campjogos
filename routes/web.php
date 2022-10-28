@@ -17,8 +17,10 @@ use App\Http\Controllers\HomeController;
 */
 
 Route::resource('campeonatos',CampeonatosController::class);
+Route::get('campeonatos/buscar/ns', [CampeonatosController::class, 'buscar']);
 
 
 Auth::routes();
 
 Route::get('', [HomeController::class, 'index'])->name('home');
+Route::get('home', [HomeController::class, 'index'])->name('home');

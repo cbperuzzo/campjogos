@@ -73,7 +73,10 @@
         </nav>
 
         <main class="py-4">
-            <div style="width:80%;margin:auto;">
+        <hr>
+            <div style="width:70%;margin:auto;margin-top:50px;;">
+                <h4><a href="/campeonatos">campeonatos</a> - <a href="/jogos">jogos</a> - <a href="/times">times</a></h5>
+                <br>
                 @yield('content')
             </div>
         </main>

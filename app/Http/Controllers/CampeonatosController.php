@@ -13,8 +13,15 @@ class CampeonatosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('campeonatos.index');
+    {   
+        $camp = Campeonatos::all();
+        return view('campeonatos.index',array('camp'=>$camp,'busca'=>null));
+    }
+
+    public function buscar(Request $request){
+        $camp = Campeonatos::where('nome','LIKE','%'.$request->input('busca').'%')
+        ->orWhere('local','LIKE','%'.$request->input('busca').'%')->get();
+        return view('campeonatos.index',array('camp'=>$camp,'busca'=>$request->input('busca')));
     }
 
     /**
@@ -24,7 +31,7 @@ class CampeonatosController extends Controller
      */
     public function create()
     {
-        //
+        return view('campeonatos.create');
     }
 
     /**
@@ -35,7 +42,12 @@ class CampeonatosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $camp = new campeonatos;
+        $camp->nome = $request->input('nome');
+        $camp->local = $request->input('local');
+        if($camp->save()){
+            return redirect('/campeonatos');
+        }
     }
 
     /**
@@ -44,9 +56,10 @@ class CampeonatosController extends Controller
      * @param  \App\Models\campeonatos  $campeonatos
      * @return \Illuminate\Http\Response
      */
-    public function show(campeonatos $campeonatos)
+    public function show($id)
     {
-        //
+        $camp = campeonatos::find($id);
+        return view('campeonatos.show',array('camp'=>$camp));
     }
 
     /**
@@ -55,9 +68,10 @@ class CampeonatosController extends Controller
      * @param  \App\Models\campeonatos  $campeonatos
      * @return \Illuminate\Http\Response
      */
-    public function edit(campeonatos $campeonatos)
+    public function edit($id)
     {
-        //
+        $camp = campeonatos::find($id);
+        return view('campeonatos.edit',array('camp'=>$camp));
     }
 
     /**
@@ -67,9 +81,14 @@ class CampeonatosController extends Controller
      * @param  \App\Models\campeonatos  $campeonatos
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, campeonatos $campeonatos)
+    public function update(Request $request,$id)
     {
-        //
+        $camp = campeonatos::find($id);
+        $camp->nome = $request->input('nome');
+        $camp->local = $request->input('local');
+        if($camp->save()){
+            return redirect('/campeonatos');
+        }
     }
 
     /**
@@ -78,8 +97,10 @@ class CampeonatosController extends Controller
      * @param  \App\Models\campeonatos  $campeonatos
      * @return \Illuminate\Http\Response
      */
-    public function destroy(campeonatos $campeonatos)
+    public function destroy($id)
     {
-        //
+        $camp = campeonatos::find($id);
+        $camp->delete();
+        return redirect(url('/campeonatos'));
     }
 }
