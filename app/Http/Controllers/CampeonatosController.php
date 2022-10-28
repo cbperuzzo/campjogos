@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+
 use App\Models\campeonatos;
 use Illuminate\Http\Request;
+
 
 class CampeonatosController extends Controller
 {
@@ -31,7 +34,12 @@ class CampeonatosController extends Controller
      */
     public function create()
     {
-        return view('campeonatos.create');
+        if(Auth::check() && Auth::user()->isAdmin()){
+            return view('campeonatos.create');
+        }
+        else{
+            return redirect('login');
+        }
     }
 
     /**
@@ -40,13 +48,18 @@ class CampeonatosController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $camp = new campeonatos;
-        $camp->nome = $request->input('nome');
-        $camp->local = $request->input('local');
-        if($camp->save()){
-            return redirect('/campeonatos');
+    public function store(Request $request){
+
+        if(Auth::check() && Auth::user()->isAdmin()){
+            $camp = new campeonatos;
+            $camp->nome = $request->input('nome');
+            $camp->local = $request->input('local');
+            if($camp->save()){
+                return redirect('/campeonatos');
+            }
+        }
+        else{
+            return redirect('login');
         }
     }
 
@@ -70,8 +83,13 @@ class CampeonatosController extends Controller
      */
     public function edit($id)
     {
-        $camp = campeonatos::find($id);
-        return view('campeonatos.edit',array('camp'=>$camp));
+        if(Auth::check() && Auth::user()->isAdmin()){
+            $camp = campeonatos::find($id);
+            return view('campeonatos.edit',array('camp'=>$camp));
+        }
+        else{
+            return redirect('login');
+        }
     }
 
     /**
@@ -83,11 +101,16 @@ class CampeonatosController extends Controller
      */
     public function update(Request $request,$id)
     {
-        $camp = campeonatos::find($id);
-        $camp->nome = $request->input('nome');
-        $camp->local = $request->input('local');
+        if(Auth::check() && Auth::user()->isAdmin()){
+            $camp = campeonatos::find($id);
+            $camp->nome = $request->input('nome');
+            $camp->local = $request->input('local');
         if($camp->save()){
             return redirect('/campeonatos');
+        }
+        }
+        else{
+            return redirect('login');
         }
     }
 
@@ -99,8 +122,13 @@ class CampeonatosController extends Controller
      */
     public function destroy($id)
     {
-        $camp = campeonatos::find($id);
-        $camp->delete();
-        return redirect(url('/campeonatos'));
+        if(Auth::check() && Auth::user()->isAdmin()){
+            $camp = campeonatos::find($id);
+            $camp->delete();
+            return redirect(url('/campeonatos'));
+        }
+        else{
+            return redirect('login');
+        }
     }
 }
