@@ -105,9 +105,9 @@ class CampeonatosController extends Controller
             $camp = campeonatos::find($id);
             $camp->nome = $request->input('nome');
             $camp->local = $request->input('local');
-        if($camp->save()){
-            return redirect('/campeonatos');
-        }
+            if($camp->save()){
+                return redirect('/campeonatos');
+            }
         }
         else{
             return redirect('login');
@@ -126,6 +126,7 @@ class CampeonatosController extends Controller
             $camp = campeonatos::find($id);
             $camp->delete();
             return redirect(url('/campeonatos'));
+            
         }
         else{
             return redirect('login');
