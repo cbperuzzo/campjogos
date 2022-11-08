@@ -34,12 +34,6 @@
         @endforeach
     </datalist>
 
-    time 1 pontos:
-    {{Form::number('t1pontos','',['class'=>'form-control'])}}
-
-    time 2 pontos:
-    {{Form::number('t2pontos','',['class'=>'form-control'])}}
-
     duração aproximada (em minutos):
     {{Form::number('mddapx','',['class'=>'form-control','required'])}}
 

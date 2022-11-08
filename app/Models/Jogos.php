@@ -25,14 +25,21 @@ class Jogos extends Model
     }
 
     public function getEstadoAttribute(){
-        $now = \Carbon\Carbon::now('GMT-3');
-        $ini = \Carbon\Carbon::create($this->dataHora);
 
-        if($now<$ini){ //antes do jogo
+        $now = \Carbon\Carbon::now('GMT-3');
+        $ini = \Carbon\Carbon::create($this->dataHora,'GMT-3');
+        $iniadd = \Carbon\Carbon::create($this->dataHora,'GMT-3')->addMinutes($this->mddapx);
+
+        if($now->lt($ini)){ //antes do jogo
 
             $r = 'agendado';
         }
-        elseif($now>$ini->addMinutes($this->mddapx)){ //depois
+        elseif($now->lt($iniadd)){ //durante
+
+            $r = 'em curso';
+            
+        }
+        else{ //depois
 
             if($this->t1pontos!=0 && $this->t2pontos!=0){
 
@@ -47,14 +54,12 @@ class Jogos extends Model
                 }
             }
             else{
-                $r = 'finalizada';
+                $r = 'finalizado';
             }
-        }
-        else{ //durante
-
-            $r = 'em curso';
 
         }
         return $r;
+        
     }
+
 }

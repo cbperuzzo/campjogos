@@ -16,10 +16,10 @@ class JogosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $jogos = Jogos::all();
-        return view('jogos.index',array('jogos'=>$jogos,'busca'=>null));
+        return view('jogos.index',array('jogos'=>$jogos));
     }
 
     /**
@@ -47,8 +47,8 @@ class JogosController extends Controller
             $jogo->camp = $request->input('camp');
             $jogo->time1 = $request->input('time1');
             $jogo->time2 = $request->input('time2');
-            $jogo->t2pontos = $request->input('t2pontos');
-            $jogo->t1pontos= $request->input('t1pontos');
+            $jogo->t2pontos = 0;
+            $jogo->t1pontos= 0;
             $jogo->mddapx= $request->input('mddapx');
             $jogo->dataHora= $request->input('data').' '.$request->input('hora').':00';
             if($jogo->save()){
@@ -67,9 +67,10 @@ class JogosController extends Controller
      * @param  \App\Models\Jogos  $jogos
      * @return \Illuminate\Http\Response
      */
-    public function show(Jogos $jogos)
+    public function show($id)
     {
-        //
+        $jogo = jogos::find($id);
+        return view('jogos.show',array('jogo'=>$jogo));
     }
 
     /**
@@ -78,9 +79,15 @@ class JogosController extends Controller
      * @param  \App\Models\Jogos  $jogos
      * @return \Illuminate\Http\Response
      */
-    public function edit(Jogos $jogos)
-    {
-        //
+    public function edit($id)
+    {   
+        if(Auth::check() && Auth::user()->isAdmin()){
+            $jogo = jogos::find($id);
+            return view('jogos.edit',array('jogo'=>$jogo));
+        }
+        else{
+            return redirect('login');
+        }
     }
 
     /**
@@ -90,9 +97,19 @@ class JogosController extends Controller
      * @param  \App\Models\Jogos  $jogos
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Jogos $jogos)
+    public function update(Request $request, $id)
     {
-        //
+        if(Auth::check() && Auth::user()->isAdmin()){
+            $jogo=jogos::find($id);
+            $jogo->t1pontos = $request->input("t1pontos");
+            $jogo->t2pontos = $request->input("t2pontos");
+            if($jogo->save()){
+                return redirect('/jogos');
+            }
+        }
+        else{
+            return redirect('login');
+        }
     }
 
     /**
@@ -101,8 +118,15 @@ class JogosController extends Controller
      * @param  \App\Models\Jogos  $jogos
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Jogos $jogos)
+    public function destroy($id)
     {
-        //
+        if(Auth::check() && Auth::user()->isAdmin()){
+            $jogo = jogos::find($id);
+            $jogo->delete();
+            return redirect(url('/jogos'));
+        }
+        else{
+            return redirect('login');
+        }
     }
 }
