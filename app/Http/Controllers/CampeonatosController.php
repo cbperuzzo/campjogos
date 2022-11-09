@@ -50,6 +50,11 @@ class CampeonatosController extends Controller
      */
     public function store(Request $request){
 
+        $this->validate($request,[
+            'nome' => 'required',
+            'local' => 'required'
+        ]);
+
         if(Auth::check() && Auth::user()->isAdmin()){
             $camp = new campeonatos;
             $camp->nome = $request->input('nome');
@@ -101,6 +106,11 @@ class CampeonatosController extends Controller
      */
     public function update(Request $request,$id)
     {
+        $this->validate($request,[
+            'nome' => 'required',
+            'local' => 'required',
+        ]);
+        
         if(Auth::check() && Auth::user()->isAdmin()){
             $camp = campeonatos::find($id);
             $camp->nome = $request->input('nome');

@@ -51,6 +51,11 @@ class TimesController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'nome'=>'required',
+            'nacao'=>'required'
+        ]);
+        
         if(Auth::check() && Auth::user()->isAdmin()){
             $time = new Times;
             $time->nome = $request->input('nome');
@@ -107,6 +112,11 @@ class TimesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'nome'=>'required',
+            'nacao'=>'required'
+        ]);
+        
         if(Auth::check() && Auth::user()->isAdmin()){
             $time = Times::find($id);
             if($request->hasFile('foto')){
