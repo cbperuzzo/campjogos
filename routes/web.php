@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\JogosController;
+use App\Http\Controllers\TimesController;
 use App\Http\Controllers\CampeonatosController;
 use App\Http\Controllers\HomeController;
 
@@ -16,9 +18,14 @@ use App\Http\Controllers\HomeController;
 |
 */
 
+Route::resource('jogos',JogosController::class);
+Route::get('jogos/buscar/ns', [JogosController::class, 'buscar']);
+
 Route::resource('campeonatos',CampeonatosController::class);
 Route::get('campeonatos/buscar/ns', [CampeonatosController::class, 'buscar']);
 
+Route::resource('times',TimesController::class);
+Route::get('times/buscar/ns', [TimesController::class, 'buscar']);
 
 Auth::routes();
 
