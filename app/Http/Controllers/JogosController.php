@@ -42,6 +42,15 @@ class JogosController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'camp' => 'required',
+            'time1' => 'required',
+            'time2' => 'required',
+            'mddapx' => 'required',
+            'data' => 'required',
+            'hora' => 'required'
+        ]);
+
         if(Auth::check() && Auth::user()->isAdmin()){
             $jogo = new jogos;
             $jogo->camp = $request->input('camp');
@@ -99,6 +108,11 @@ class JogosController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            't1pontos'=>'required',
+            't2pontos'=>'required'
+        ]);
+        
         if(Auth::check() && Auth::user()->isAdmin()){
             $jogo=jogos::find($id);
             $jogo->t1pontos = $request->input("t1pontos");
