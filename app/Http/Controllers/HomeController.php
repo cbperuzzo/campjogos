@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\jogos;
+use App\Models\Times;
+use App\Models\Campeonatos;
 class HomeController extends Controller
 {
     /**
@@ -22,7 +25,9 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
-    {
-        return view('home');
+    {   $camp = campeonatos::count();
+        $times = times::count();
+        $ajogos = jogos::where('dataHora','>',\carbon\carbon::now('GMT-3'))->count();
+        return view('home',array('camp'=>$camp,'times'=>$times,'ajogos'=>$ajogos));
     }
 }

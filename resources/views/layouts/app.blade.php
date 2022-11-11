@@ -20,9 +20,14 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
+
+                <a class="navbar-brand" href="{{ url('/') }}">Home</a>
+
+                <a class="navbar-brand" href="/campeonatos">Campeonatos</a>
+
+                <a class="navbar-brand" href="/jogos">Jogos</a>
+
+                <a class="navbar-brand" href="/times">Times</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -75,7 +80,7 @@
         <main class="py-4">
         <hr>
             <div style="width:70%;margin:auto;margin-top:50px;;">
-                <h4><a href="/campeonatos">campeonatos</a> - <a href="/jogos">jogos</a> - <a href="/times">times</a></h5>
+                
                 <br>
                 @yield('content')
             </div>

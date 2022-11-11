@@ -8,13 +8,13 @@
                 <div class="card-header">{{ __('Dashboard') }}</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
+                    <h3>
+                        <ul>
+                            <li><strong>times: </strong>{{$times}}</li>
+                            <li><strong>jogos agendados: </strong>{{$ajogos}}</li>
+                            <li><strong>campeonatos: </strong>{{$camp}}</li>
+                        </ul>
+                    </h3>
                 </div>
             </div>
         </div>
